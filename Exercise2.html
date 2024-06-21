@@ -26,6 +26,7 @@
         <div class="card-body">
           <div class="card-title"></div>
           <div class="card-text"></div>
+          <img class = "card-image"></img>
         </div>
       </div>
     </template>
@@ -45,6 +46,8 @@
       }
       //addCard();
 
+      //------------------------------------------QUESTION 2.1 & 2.2-------------------------------------------------------------
+
       //assume passing one set of data
       function addCardDynamic(data) {
         const template = document.getElementById("card-template").content.cloneNode(true);
@@ -60,7 +63,15 @@
       ];
 
       for (let i in data) {
-        addCardDynamic(data[i]);
+        //addCardDynamic(data[i]);
+      }
+
+      //------------------------------------------QUESTION 2.3-------------------------------------------------------------
+      function addCardDynamic2(data){
+        const template = document.getElementById("card-template").content.cloneNode(true);
+        template.querySelector(".card-title").innerText = data.title;
+        template.querySelector(".card-image").src = data.url;
+        document.querySelector("#card-list").appendChild(template);
       }
 
       const artist = {
@@ -69,6 +80,11 @@
             {title: "portrait", url:"https://collectionapi.metmuseum.org/api/collection/v1/iiif/436532/1671316/main-image"},
             {title: "sky", url:"https://mymodernmet.com/wp/wp-content/uploads/2020/11/White-house-night-van-goh-worldwide-2.jpg" },
         ]
+    }
+
+    //for each artist, create a template showing the template & url
+    for(let i in artist.portfolio){
+        addCardDynamic2(artist.portfolio[i]);
     }
     </script>
   </body>
