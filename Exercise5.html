@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Managing Data</title>
+
+    <style>
+        .heading {
+            background-color: lightslategray;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <h1 class="heading">News
+    </div>
+
+    <div>
+        <template id="card-template">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title" style="font-weight:bold"></div>
+                    <div class="card-text"></div>
+                </div>
+            </div><br><br>
+        </template>
+        <div id="card-list"></div>
+    </div>
+
+
+
+
+    <script>
+        let news = [
+            { id: 1, title: "Election Results", content: "Newly elected minister..." },
+            { id: 2, title: "Sporting Success", content: "World Cup winners..." },
+            { id: 3, title: "Tornado Warning", content: "Residents should prepare..." },
+        ];
+
+        function populateNewsCard(newsArticle) {
+            const template = document.getElementById("card-template").content.cloneNode(true);
+            template.querySelector(".card-title").innerText = newsArticle.title;
+            template.querySelector(".card-text").innerText = newsArticle.content;
+            //document.querySelector("#card-list").appendChild(template);
+            return template;
+        }
+
+        function showNews() {
+            for (let i in news) {
+                const newsCardHTML = populateNewsCard(news[i]);
+                document.querySelector("#card-list").appendChild(newsCardHTML);
+            }
+        }
+
+        window.onload = function () {
+            showNews();
+        }
+
+        //want to continually update the news, but needs to run asynch. so that user can still use the webpage
+        function getNews() {
+            return new Promise(resolve => { setTimeout(function () { resolve(news) }, 500); })
+        }
+
+        //getNews().then((news) => console.log(news));
+
+        setInterval(function () { getNews().then((news) => console.log(news)) }, 2000);
+
+    </script>
+</body>
+
+</html>
