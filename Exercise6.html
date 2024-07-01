@@ -1,16 +1,59 @@
 <html>
-  <head>
+
+<head>
     <title>JSON Placeholder Posts</title>
 
     <script>
-        fetch("https://jsonplaceholder.typicode.com/posts?_limit=10")
-          .then((response) => response.json())
-          .then((json) => console.log(json));
-      </script>
-      
-  </head>
-  <body>
-    <h1>Check the console</h1>
-  </body>
+        /*
+        body : "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+        id: 1
+        title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit"
+        userId: 1*/
+
+        function populateHtmlObjects(objects) {
+            const template = document.getElementById("card-template").content.cloneNode(true);
+            template.querySelector(".card-title").innerText = objects.title;
+            template.querySelector(".card-text").innerText = objects.body;
+            //document.querySelector("#card-list").appendChild(template);
+            return template;
+        }
+
+        function showObjects(objectsArr) {
+            for (let i in objectsArr) {
+                //console.log(objectsArr);
+                const objectCardHTML = populateHtmlObjects(objectsArr[i]);
+                document.querySelector("#card-list").appendChild(objectCardHTML);
+            }
+        }
+
+        window.onload = function () {
+            let objects = [];
+            /*fetch("https://jsonplaceholder.typicode.com/posts?_limit=10")
+                .then((response) => response.json())
+                .then((json) => console.log(json));*/
+                fetch("https://jsonplaceholder.typicode.com/posts?_limit=10")
+                .then((response) => response.json())
+                .then((json) => showObjects(json));
+        }
+
+    </script>
+</head>
+
+<body>
+    <h1>Output of JSON Placeholders as Cards</h1>
+
+    <div>
+        <template id="card-template">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title" style="font-weight:bold"></div>
+                    <div class="card-text"></div>
+                </div>
+            </div><br><br>
+        </template>
+        <div id="card-list"></div>
+    </div>
+
+</body>
 
 </html>
