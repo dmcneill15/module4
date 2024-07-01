@@ -12,12 +12,82 @@
             text-align: center;
         }
     </style>
+
+<script>
+    let news = [
+        { id: 1, title: "Election Results", content: "Newly elected minister..." },
+        { id: 2, title: "Sporting Success", content: "World Cup winners..." },
+        { id: 3, title: "Tornado Warning", content: "Residents should prepare..." },
+        { id: 4, title: "Olympics", content: "Ways to watch the Olympic Games..." },
+    ];
+
+    function addNews(){
+        const newId = news.length + 1;
+        const newTitle = document.getElementById("title").value;
+        const newContent = document.getElementById("content").value;
+
+        let newNews = {id: newId, title: newTitle, content: newContent};
+
+        news.push(newNews);
+        updateNews(news);
+    }
+
+    function populateNewsCard(newsArticle) {
+        const template = document.getElementById("card-template").content.cloneNode(true);
+        template.querySelector(".card-title").innerText = newsArticle.title;
+        template.querySelector(".card-text").innerText = newsArticle.content;
+        //document.querySelector("#card-list").appendChild(template);
+        return template;
+    }
+
+    /*function showNews(newsArr) {
+        for (let i in newsArr) {
+            const newsCardHTML = populateNewsCard(newsArr[i]);
+            document.querySelector("#card-list").appendChild(newsCardHTML);
+        }
+    }*/
+
+    function fetchNews(newsArr) {
+        let newsArrHtml = [];
+        for (let i in newsArr) {
+            const newsCardHTML = populateNewsCard(newsArr[i]);
+            newsArrHtml.push(newsCardHTML);
+        }
+        return newsArrHtml;
+    }
+
+    function showNews(newsArr){
+        const newsHtml = fetchNews(newsArr);
+        for (let i in newsHtml) {
+            document.querySelector("#card-list").appendChild(newsHtml[i]);
+        }
+    }
+
+    function updateNews(news){
+       document.querySelector("#card-list").innerHTML = ""; //clears the previous cards
+       showNews(news);
+       console.log("testing");
+    }
+
+    window.onload = function () {
+        setInterval(updateNews(news),1000);
+    }
+</script>
+
 </head>
 
 <body>
 
     <div>
-        <h1 class="heading">News
+        <h1 class="heading" id="heading">News</h1>
+    </div>
+
+    <div>User Input
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title"><br><br>
+        <label for="content">Content</label>
+        <input type="text" id="content" name="content"><br><br>
+        <button type="button" onclick="addNews()">Submit</button><br><br>
     </div>
 
     <div>
@@ -32,45 +102,9 @@
         <div id="card-list"></div>
     </div>
 
+    	
 
 
-
-    <script>
-        let news = [
-            { id: 1, title: "Election Results", content: "Newly elected minister..." },
-            { id: 2, title: "Sporting Success", content: "World Cup winners..." },
-            { id: 3, title: "Tornado Warning", content: "Residents should prepare..." },
-        ];
-
-        function populateNewsCard(newsArticle) {
-            const template = document.getElementById("card-template").content.cloneNode(true);
-            template.querySelector(".card-title").innerText = newsArticle.title;
-            template.querySelector(".card-text").innerText = newsArticle.content;
-            //document.querySelector("#card-list").appendChild(template);
-            return template;
-        }
-
-        function showNews() {
-            for (let i in news) {
-                const newsCardHTML = populateNewsCard(news[i]);
-                document.querySelector("#card-list").appendChild(newsCardHTML);
-            }
-        }
-
-        window.onload = function () {
-            showNews();
-        }
-
-        //want to continually update the news, but needs to run asynch. so that user can still use the webpage
-        function getNews() {
-            return new Promise(resolve => { setTimeout(function () { resolve(news) }, 500); })
-        }
-
-        //getNews().then((news) => console.log(news));
-
-        setInterval(function () { getNews().then((news) => console.log(news)) }, 2000);
-
-    </script>
 </body>
 
 </html>
