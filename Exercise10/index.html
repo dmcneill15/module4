@@ -21,7 +21,7 @@
 
         function getGamesHtml(games) {
             let gamesHtml = [];
-            for(let game of games) {
+            for (let game of games) {
                 const gameHtml = populateGameTemplate(game);
                 gamesHtml.push(gameHtml);
             }
@@ -36,12 +36,59 @@
             });
         }
 
+
+        //https://www.youtube.com/watch?v=TlP5WIxVirU
+        const searchInput = document.querySelector("[search-data]");
+        const card = document.querySelector('.card')
+        searchInput.addEventListener("input", e => {
+            const value = e.target.value.toLowerCase();
+            for (let game of gamesArray) {                                //loop through each game
+                let isVisible = game.title.toLowerCase().includes(value);           //compare its title to the search data
+                console.log(value + " " + isVisible);
+                if (!isVisible) {
+                    //game.card.style="display:none";
+                    //game.style = "display:none"
+                    //game.style.display = "none";
+                    //document.getElementById("card-template").style.display = "";
+                    //document.getElementsByClassName("card")[0].style = "display:none";
+                    //document.getElementsByClassName("card").classList.toggle = ("hide");
+                }
+            }
+        })
+
+        function displayFilteredGames(games) {
+
+          
+        }
+        function filteredGames(gamesArray) {
+            let filteredGamesHtml = [];
+            const selectedGenre = document.querySelector('.filter').value;
+            for (let game of gamesArray) {  
+                if(game.genre.includes(selectedGenre)){         //if the game genre includes the selected genre
+                    filteredGamesHtml.push(game);
+                }
+            }
+        }
+
+
     </script>
 </head>
 
 <body>
     <header>
         <h1>Play Video Games</h1>
+        <div class="search-container">
+            <label for="search">Search Games</label>
+            <input type="search" id="search" search-data>
+        </div>
+        <div class="filter-container">
+            <label for="filter">Genre Filter</label>
+            <select name="filter" id="filter">
+                <option value="Shooter">Shooter</option>
+                <option value="ARPG">ARPG</option>
+                <option value="Strategy">Strategy</option>
+            </select>
+        </div>
     </header>
 
     <template id="card-template">

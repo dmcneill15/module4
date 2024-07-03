@@ -16,3 +16,11 @@
     width: 350px;
     transition: 1s;
 }
+
+.search-container{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.hide{
+    display: none;
+}
